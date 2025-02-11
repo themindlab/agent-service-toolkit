@@ -31,8 +31,8 @@ jobs:
           docker_layer_caching: true
       - checkout  
       - run:
-          name: make blank private env
-          command: echo '' > .private.env      
+          name: make private env
+          command: echo 'USE_FAKE_MODEL=true' > .private.env      
       - run:
           name: build agent-server container
           command: sh ./app build
