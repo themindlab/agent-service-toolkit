@@ -26,7 +26,6 @@ async def acall_model(state: AgentState, config: RunnableConfig) -> AgentState:
     m = get_model(config["configurable"].get("model", settings.DEFAULT_MODEL))
     model_runnable = wrap_model(m)
     response = await model_runnable.ainvoke(state, config)
-
     # We return a list, because this will get added to the existing list
     return {"messages": [response]}
 

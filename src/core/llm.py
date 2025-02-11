@@ -9,7 +9,7 @@ from langchain_groq import ChatGroq
 from langchain_ollama import ChatOllama
 from langchain_openai import ChatOpenAI
 
-from core.settings import settings
+from .settings import settings
 from schema.models import (
     AllModelEnum,
     AnthropicModelName,

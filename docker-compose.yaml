@@ -1,0 +1,21 @@
+services:
+  agent-server:
+    image:
+      ${AGENT_SERVER_IMAGE}
+    container_name: agent-server
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.service
+    command:
+      tail -f /dev/null
+    env_file:
+      - .env
+
+  streamlit-app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.app
+    depends_on:
+      - agent-server
+    environment:
+      - AGENT_URL=http://agent-server:8080
