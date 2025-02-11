@@ -9,7 +9,7 @@ services:
     command:
       tail -f /dev/null
     env_file:
-      - .env
+      - .private.env
 
   streamlit-app:
     build:
