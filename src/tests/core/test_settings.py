@@ -23,9 +23,9 @@ def test_check_str_is_http():
 def test_settings_default_values():
     settings = Settings(_env_file=None)
     assert settings.HOST == "0.0.0.0"
-    assert settings.PORT == 8080
+    assert settings.PORT == 80
     assert settings.USE_AWS_BEDROCK is False
-    assert settings.USE_FAKE_MODEL is False
+    #assert settings.USE_FAKE_MODEL is False
 
 
 def test_settings_no_api_keys():

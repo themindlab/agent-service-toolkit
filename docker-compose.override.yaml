@@ -1,0 +1,15 @@
+services:
+  agent-server:
+    volumes:
+      - ./src:/app/
+    ports:
+      - "8080:80"
+  
+  streamlit-app:
+    volumes:
+      - ./src/client/:/app/client/
+      - ./src/schema/:/app/schema/
+      - ./src/streamlit_app.py:/app/streamlit_app.py
+
+    ports:
+      - "8501:8501"

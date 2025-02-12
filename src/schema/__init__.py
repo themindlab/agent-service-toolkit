@@ -1,5 +1,5 @@
-from schema.models import AllModelEnum
-from schema.schema import (
+from .models import AllModelEnum
+from .schema import (
     AgentInfo,
     ChatHistory,
     ChatHistoryInput,
