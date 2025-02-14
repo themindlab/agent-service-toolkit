@@ -29,10 +29,13 @@ jobs:
           key: GCLOUD_V4_STORAGE_KEY
       - setup_remote_docker:
           docker_layer_caching: true
-      - checkout  
+      - checkout 
       - run:
           name: make private env
-          command: echo 'USE_FAKE_MODEL=true' > .private.env      
+          command: echo 'USE_FAKE_MODEL=true' > .private.env
+      - run:
+          name: Install submodule dependencies
+          command: sh ./app init-modules      
       - run:
           name: build agent-server container
           command: sh ./app build

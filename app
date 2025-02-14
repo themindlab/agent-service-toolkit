@@ -32,6 +32,9 @@ if [ $# -gt 0 ]; then
 
   elif [ "$1" = "bash" ]; then
     docker compose exec -it agent-server bash
+  
+  elif [ "$1" = "init-modules" ]; then
+    git submodule update --init --recursive --remote
 
   else
     echo "command not recognised"
