@@ -75,3 +75,12 @@ def test_query_client():
         }
         })
     assert res['value_count'] == 1
+    res = query_client.executeQuery({
+        "project_id": project_id,
+        "query": {
+            "_$experiment_sessions": {
+                "experiment_id": EXPERIMENT_ID
+            }
+        }
+        })
+    assert res['value_count'] == 1
