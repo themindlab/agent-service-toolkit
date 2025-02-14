@@ -21,13 +21,13 @@ if [ $# -gt 0 ]; then
   elif [ "$1" = "test" ]; then
     if [ ! -z "$2" ]; then
       shift 1
-      docker compose exec \
+      docker compose exec -e PYTHONPATH=. \
         agent-server \
         pytest "$@"
     else
-      docker compose exec \
+      docker compose exec -e PYTHONPATH=. \
         agent-server \
-        pytest 
+        pytest ./tests
     fi
 
   elif [ "$1" = "bash" ]; then

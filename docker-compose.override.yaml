@@ -1,7 +1,23 @@
 services:
   agent-server:
     volumes:
-      - ./src:/app/
+      - ./src/agents:/app/agents
+      - ./src/schema:/app/schema
+      - ./src/service:/app/service
+      - ./src/agents:/app/agents
+      - ./src/client:/app/client
+      - ./src/core:/app/core
+      - ./src/mindlab_clients:/app/mindlab_clients
+      - ./src/tests:/app/tests
+
+      - ./src/run_agent.py:/app/run_agent.py
+      - ./src/run_service.py:/app/run_service.py
+      - ./src/run_client.py:/app/run_client.py
+
+      - ./requirements.txt:/app/requirements.txt
+      - ./local-requirements.txt:/app/local-requirements.txt
+      - ./local_modules:/app/local_modules
+
     ports:
       - "8080:80"
   
@@ -13,3 +29,33 @@ services:
 
     ports:
       - "8501:8501"
+
+  postgres:
+    expose:
+      - "5432"
+    ports:
+      - "${COMMAND_SERVER_PORT}:6666"
+      - "${DATABASE_PORT}:5432"
+    volumes:
+      # Persist the data between container invocations
+      - postgresVolume:/var/lib/postgresql/data
+
+  data-server:
+    ports:
+      - "5000:80"
+  
+  query-server:
+    ports:
+      - "5001:80"
+
+  redis-query:
+    ports:
+      - "6379:6379"
+
+  redis-data:
+    ports:
+      - "6380:6379"
+
+volumes:
+  postgresVolume:
+    driver: local

@@ -1,0 +1,14 @@
+{
+    "http_data_server": {
+        "title": "Data Server Host",
+        "description": "url of the data-server service",
+        "type": "string",
+        "required": true
+    },
+    "http_query_server": {
+        "title": "Query Server Host",
+        "description": "url of the query service",
+        "type": "string",
+        "required": true
+    }
+}
