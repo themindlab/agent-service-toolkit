@@ -41,7 +41,10 @@ jobs:
           command: sh ./app build
       - run:
           name: Startup containers
-          command: sh ./app ci_up        
+          command: sh ./app ci_up
+      - mindlab/wait-for-container-response:
+          network: agent-server
+          address: http://query-server     
       - run:
           name: testing
           command: sh ./app test
