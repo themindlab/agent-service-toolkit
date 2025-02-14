@@ -21,17 +21,20 @@ if [ $# -gt 0 ]; then
   elif [ "$1" = "test" ]; then
     if [ ! -z "$2" ]; then
       shift 1
-      docker compose exec \
+      docker compose exec -e PYTHONPATH=. \
         agent-server \
         pytest "$@"
     else
-      docker compose exec \
+      docker compose exec -e PYTHONPATH=. \
         agent-server \
-        pytest 
+        pytest ./tests
     fi
 
   elif [ "$1" = "bash" ]; then
     docker compose exec -it agent-server bash
+  
+  elif [ "$1" = "init-modules" ]; then
+    git submodule update --init --recursive --remote
 
   else
     echo "command not recognised"
