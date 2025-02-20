@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from langgraph.graph.state import CompiledStateGraph
 
 from .bg_task_agent.bg_task_agent import bg_task_agent
+from .data_insights.proportion_insight import proportion_insight_agent
 from .chatbot import chatbot
 from .command_agent import command_agent
 from .research_assistant import research_assistant
@@ -26,6 +27,7 @@ agents: dict[str, Agent] = {
     "command-agent": Agent(description="A command agent.", graph=command_agent),
     "bg-task-agent": Agent(description="A background task agent.", graph=bg_task_agent),
     "test_graph": Agent(description="a test graph", graph=test_graph),
+    "proportion_agent": Agent(description="A data insights agent for proportion.", graph=proportion_insight_agent),
 }
 
 

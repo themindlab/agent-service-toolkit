@@ -1,5 +1,7 @@
 import os
 from unittest.mock import patch
+from fastapi.testclient import TestClient
+from service import app
 
 import pytest
 
@@ -15,12 +17,19 @@ def pytest_configure(config):
 
 
 def pytest_collection_modifyitems(config, items):
-    if not config.getoption("--run-docker"):
-        skip_docker = pytest.mark.skip(reason="need --run-docker option to run")
-        for item in items:
-            if "docker" in item.keywords:
-                item.add_marker(skip_docker)
+    
+    skip_docker = pytest.mark.skip(reason="need --run-docker option to run")
+    just_skip = pytest.mark.skip(reason="skipping")
+    for item in items:
+        if "docker" in item.keywords and not config.getoption("--run-docker"):
+            item.add_marker(skip_docker)
+        if "skip" in item.keywords:
+            item.add_marker(just_skip) 
 
+@pytest.fixture
+def test_client():
+    """Fixture to create a FastAPI test client."""
+    return TestClient(app)
 
 @pytest.fixture
 def mock_env():
