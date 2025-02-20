@@ -1,3 +1,21 @@
+import_experiment () {
+    if [ -z "$1" ]
+    then
+        echo "You must supply a filename (including the .rds extension)"
+    else
+        if [ -z $2 ]; then
+            BATCH_SIZE=50
+        else
+            BATCH_SIZE=$2
+        fi
+        local $(cat .env | grep EXPERIMENT_IMPORTER_PORT | awk '/=/ {print $1}')
+        curl -X POST -H "Content-Type: application/json" \
+            -d "{ \"filename\": \"$1\", \"batch_size\": $BATCH_SIZE }" \
+            localhost:$EXPERIMENT_IMPORTER_PORT/importExperiment
+    fi
+
+}
+
 if [ $# -gt 0 ]; then
 
   if [ "$1" = "build" ]; then
@@ -35,6 +53,13 @@ if [ $# -gt 0 ]; then
   
   elif [ "$1" = "init-modules" ]; then
     git submodule update --init --recursive --remote
+
+  elif [ "$1" = "import-experiment" ]; then
+      shift 1
+      import_experiment $@
+
+  elif [ "$1" = "purge" ]; then
+    curl -X POST -H "Content-Type: application/json" -d '{"confirmation":"not_safe"}' localhost:5000/purge
 
   else
     echo "command not recognised"
