@@ -1,6 +1,7 @@
 import json
 import logging
 import warnings
+import asyncio
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from typing import Annotated, Any
@@ -28,6 +29,8 @@ from schema import (
     ServiceMetadata,
     StreamInput,
     UserInput,
+    ExecuteWorkflowInput,
+    GetWorkflowInput
 )
 from .utils import (
     convert_message_content_to_string,
@@ -270,6 +273,49 @@ def history(input: ChatHistoryInput) -> ChatHistory:
 async def health_check():
     """Health check endpoint."""
     return {"status": "ok"}
+
+
+##### New Routes #####
+
+@router.post("/execute_workflow")
+async def execute_workflow(input: ExecuteWorkflowInput):
+
+    kwargs = {
+        'input': {
+            'data': input.data,
+            'workflow': input.workflow
+        },
+        'config': {
+            'configurable':{
+                'thread_id': input.thread_id if input.thread_id else str(uuid4()),
+            }
+        }
+    }
+
+    agent = get_agent(input.workflow)
+    loop = asyncio.get_event_loop()
+    try:
+        loop.create_task(agent.ainvoke(**kwargs))
+        return kwargs
+    except Exception as e:
+        logger.error(f"An exception occurred: {e}")
+        raise HTTPException(status_code=500, detail="Unexpected error")
+
+@router.post("/get_workflow")
+def get_workflow(input: GetWorkflowInput):
+    agent = get_agent(input.workflow)
+    try:
+        state_snapshot = agent.get_state(
+            config=RunnableConfig(
+                configurable={
+                    "thread_id": input.thread_id,
+                }
+            )
+        )
+        return state_snapshot.values
+    except Exception as e:
+        logger.error(f"An exception occurred: {e}")
+        raise HTTPException(status_code=500, detail="Unexpected error")
 
 
 app.include_router(router)

@@ -77,3 +77,6 @@ AllModelEnum: TypeAlias = (
     | OllamaModelName
     | FakeModelName
 )
+
+class WorkflowEnum(StrEnum):
+    proportion_agent = "proportion_agent"
