@@ -48,12 +48,6 @@ class ExecuteWorkflowInput(BaseModel):
         description="Workflow to be executed",
         examples=['proportion_agent']
     )
-    model: SerializeAsAny[AllModelEnum] | None = Field(
-        title="Model",
-        description="LLM Model to use for the agent.",
-        default=OpenAIModelName.GPT_4O_MINI,
-        examples=[OpenAIModelName.GPT_4O_MINI, AnthropicModelName.HAIKU_35],
-    )
     thread_id: str | None = Field(
         description="Thread ID to be used to fetch workflow state.",
         default=None,

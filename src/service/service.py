@@ -288,7 +288,6 @@ async def execute_workflow(input: ExecuteWorkflowInput):
         'config': {
             'configurable':{
                 'thread_id': input.thread_id if input.thread_id else str(uuid4()),
-                'model': input.model
             }
         }
     }
