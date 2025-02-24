@@ -1,5 +1,5 @@
 import asyncio
-from core import get_model
+from core import get_model, settings
 from typing import TypedDict
 
 from langchain_core.messages import AIMessage
@@ -12,8 +12,10 @@ class State(TypedDict):
     data: dict
     result: AIMessage
 
-
-model = get_model("gpt-4o-mini")
+if settings.USE_FAKE_MODEL:
+    model= get_model("fake")
+else:
+    model = get_model("gpt-4o-mini")
 
 prompt = f"""
 A group of people were asked their age in a survey. Below is a list of key-value pairs.
