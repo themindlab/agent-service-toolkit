@@ -72,12 +72,12 @@ def test_setup_data():
 @pytest.mark.skip
 async def test_get_insights_from_data(test_client):
 
-    res = test_client.post("/execute_workflow", json={"data": DATA, "workflow": "proportion_agent"})
+    res = test_client.post("/execute_workflow", json={"initial_state": DATA, "workflow_id": "proportion_agent"})
     thread_id = res.json()['config']['configurable']['thread_id']
 
-    res = test_client.post("/get_workflow", json={"thread_id": thread_id}).json()
+    res = test_client.post("/get_thread_state", json={"thread_id": thread_id}).json()
     assert "result" not in res
 
     await asyncio.sleep(5)
-    res = test_client.post("/get_workflow", json={"thread_id": thread_id}).json()
+    res = test_client.post("/get_thread_state", json={"thread_id": thread_id}).json()
     assert "result" in res

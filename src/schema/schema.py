@@ -38,12 +38,12 @@ class ServiceMetadata(BaseModel):
 
 class ExecuteWorkflowInput(BaseModel):
     """ workflow input """
-    data: dict = Field(
+    initial_state: dict = Field(
         title="Data",
         description="Data to be consumed by agent"
         # TODO: add examplewhen data schema figured out
     )
-    workflow: WorkflowEnum = Field(
+    workflow_id: WorkflowEnum = Field(
         title="Workflow",
         description="Workflow to be executed",
         examples=['proportion_agent']
@@ -54,14 +54,14 @@ class ExecuteWorkflowInput(BaseModel):
         examples=["847c6285-8fc9-4560-a83f-4e6285809254"],
     )
 
-class GetWorkflowInput(BaseModel):
+class GetThreadStateInput(BaseModel):
     """thread id input """
     thread_id: str | None = Field(
         description="Thread ID to persist and continue a multi-turn conversation.",
         default=None,
         examples=["847c6285-8fc9-4560-a83f-4e6285809254"],
     )
-    workflow: WorkflowEnum = Field(
+    workflow_id: WorkflowEnum = Field(
         title="Workflow",
         description="Workflow to be executed",
         examples=['proportion_agent']
