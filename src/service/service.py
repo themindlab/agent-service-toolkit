@@ -30,7 +30,7 @@ from schema import (
     StreamInput,
     UserInput,
     ExecuteWorkflowInput,
-    GetWorkflowInput
+    GetThreadStateInput
 )
 from .utils import (
     convert_message_content_to_string,
@@ -282,8 +282,8 @@ async def execute_workflow(input: ExecuteWorkflowInput):
 
     kwargs = {
         'input': {
-            'data': input.data,
-            'workflow': input.workflow
+            **input.initial_state,
+            'workflow': input.workflow_id
         },
         'config': {
             'configurable':{
@@ -292,7 +292,7 @@ async def execute_workflow(input: ExecuteWorkflowInput):
         }
     }
 
-    agent = get_agent(input.workflow)
+    agent = get_agent(input.workflow_id)
     loop = asyncio.get_event_loop()
     try:
         loop.create_task(agent.ainvoke(**kwargs))
@@ -301,9 +301,9 @@ async def execute_workflow(input: ExecuteWorkflowInput):
         logger.error(f"An exception occurred: {e}")
         raise HTTPException(status_code=500, detail="Unexpected error")
 
-@router.post("/get_workflow")
-def get_workflow(input: GetWorkflowInput):
-    agent = get_agent(input.workflow)
+@router.post("/get_thread_state")
+def get_thread_state(input: GetThreadStateInput):
+    agent = get_agent(input.workflow_id)
     try:
         state_snapshot = agent.get_state(
             config=RunnableConfig(

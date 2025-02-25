@@ -10,7 +10,7 @@ from .schema import (
     StreamInput,
     UserInput,
     ExecuteWorkflowInput,
-    GetWorkflowInput
+    GetThreadStateInput
 )
 
 __all__ = [
@@ -25,5 +25,5 @@ __all__ = [
     "ChatHistoryInput",
     "ChatHistory",
     "ExecuteWorkflowInput",
-    "GetWorkflowInput"
+    "GetThreadStateInput"
 ]
