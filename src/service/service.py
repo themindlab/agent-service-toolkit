@@ -61,19 +61,16 @@ def verify_bearer(
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     # Construct agent with Sqlite checkpointer
     # TODO: It's probably dangerous to share the same checkpointer on multiple agents
-
-    pool = AsyncConnectionPool(conninfo=settings.DB_URI, max_size=20, kwargs={"autocommit": True})
-    checkpointer = AsyncPostgresSaver(pool)
-    await checkpointer.setup()
-
-    agents = get_all_agent_info()
-    for a in agents:
-        agent = get_agent(a.key)
-        agent.checkpointer = checkpointer
     
-    yield
-    pool.close()
-    
+    async with AsyncConnectionPool(conninfo=settings.DB_URI, max_size=20, kwargs={"autocommit": True}) as pool:
+        checkpointer = AsyncPostgresSaver(pool)
+        await checkpointer.setup()
+
+        agents = get_all_agent_info()
+        for a in agents:
+            agent = get_agent(a.key)
+            agent.checkpointer = checkpointer
+        yield
     
     # OLD
     #async with AsyncSqliteSaver.from_conn_string("checkpoints.db") as saver:
