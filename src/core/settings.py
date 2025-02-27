@@ -51,6 +51,12 @@ class Settings(BaseSettings):
     HTTP_DATA_SERVER: str = "data-server"
     HTTP_QUERY_SERVER: str = "query-server"
 
+    DATABASE_USER: str = None
+    DATABASE_PASSWORD: str = None
+    DATABASE_HOST: str = None
+    DATABASE_NAME: str = None
+    DATABASE_PORT: str = "5432"
+
     # If DEFAULT_MODEL is None, it will be set in model_post_init
     DEFAULT_MODEL: AllModelEnum | None = None  # type: ignore[assignment]
     AVAILABLE_MODELS: set[AllModelEnum] = set()  # type: ignore[assignment]
@@ -120,6 +126,11 @@ class Settings(BaseSettings):
     @property
     def BASE_URL(self) -> str:
         return f"http://{self.HOST}:{self.PORT}"
+    
+    @computed_field
+    @property
+    def DB_URI(self) -> str:
+        return f"postgresql://{self.DATABASE_USER}:{self.DATABASE_PASSWORD}@{self.DATABASE_HOST}:{self.DATABASE_PORT}/{self.DATABASE_NAME}"
 
     def is_dev(self) -> bool:
         return self.MODE == "dev"
