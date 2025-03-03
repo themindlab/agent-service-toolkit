@@ -80,3 +80,5 @@ AllModelEnum: TypeAlias = (
 
 class WorkflowEnum(StrEnum):
     proportion_agent = "proportion_agent"
+    associations_insights = "associations_insights"
+    standout_insights = "standout_insights"

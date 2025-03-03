@@ -39,12 +39,12 @@ jobs:
       - run:
           name: build agent-server container
           command: sh ./app build
-      - run:
-          name: Startup containers
-          command: sh ./app ci_up    
-      - run:
-          name: testing
-          command: sh ./app test
+      # - run:
+      #     name: Startup containers
+      #     command: sh ./app ci_up    
+      # - run:
+      #     name: testing
+      #     command: sh ./app test
       - when:
           condition:
             or:

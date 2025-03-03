@@ -11,6 +11,12 @@ services:
     environment:
       HTTP_DATA_SERVER: data-server
       HTTP_QUERY_SERVER: query-server
+
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_HOST: postgres
+      DATABASE_NAME: ai_workflows
     env_file:
       - .private.env
     networks:
@@ -55,7 +61,7 @@ services:
     container_name: postgres
     restart: always
     environment:
-      POSTGRES_MULTIPLE_DATABASES: development,test,translations
+      POSTGRES_MULTIPLE_DATABASES: development,test,translations,ai_workflows
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_USER: ${DATABASE_USER}
       #SQL_FILE: five_real_experiments.sql

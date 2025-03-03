@@ -6,6 +6,7 @@ from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from typing import Annotated, Any
 from uuid import UUID, uuid4
+from psycopg_pool import AsyncConnectionPool
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, status
 from fastapi.responses import StreamingResponse
@@ -14,6 +15,7 @@ from langchain_core._api import LangChainBetaWarning
 from langchain_core.messages import AnyMessage, HumanMessage
 from langchain_core.runnables import RunnableConfig
 from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
+from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 from langgraph.graph.state import CompiledStateGraph
 from langgraph.types import Command
 from langsmith import Client as LangsmithClient
@@ -59,13 +61,25 @@ def verify_bearer(
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     # Construct agent with Sqlite checkpointer
     # TODO: It's probably dangerous to share the same checkpointer on multiple agents
-    async with AsyncSqliteSaver.from_conn_string("checkpoints.db") as saver:
+    
+    async with AsyncConnectionPool(conninfo=settings.DB_URI, max_size=20, kwargs={"autocommit": True}) as pool:
+        checkpointer = AsyncPostgresSaver(pool)
+        await checkpointer.setup()
+
         agents = get_all_agent_info()
         for a in agents:
             agent = get_agent(a.key)
-            agent.checkpointer = saver
+            agent.checkpointer = checkpointer
         yield
-    # context manager will clean up the AsyncSqliteSaver on exit
+    
+    # OLD
+    #async with AsyncSqliteSaver.from_conn_string("checkpoints.db") as saver:
+    #    agents = get_all_agent_info()
+    #    for a in agents:
+    #        agent = get_agent(a.key)
+    #        agent.checkpointer = saver
+    #    yield
+    ## context manager will clean up the AsyncSqliteSaver on exit
 
 
 app = FastAPI(lifespan=lifespan)
