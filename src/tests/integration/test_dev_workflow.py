@@ -6,6 +6,9 @@ def test_setup_data(test_client):
             "initial_state": {}, 
             "workflow_id": "dev_workflow"
         })
-    thread_id = res.json()['config']['configurable']['thread_id']
+    assert res.status_code == 200
+    res_data = res.json()
+    print(res_data)
+    thread_id = res_data['config']['configurable']['thread_id']
 
     print(thread_id)

@@ -33,6 +33,8 @@ agents: dict[str, Agent] = {
     "proportion_agent": Agent(description="A data insights agent for proportion.", graph=proportion_insight_agent),
 }
 
+print("workflows")
+
 for workflow in workflows:
     agents[workflow['workflow_id']] = Agent(description=workflow['description'], graph=workflow['agent'])
 
