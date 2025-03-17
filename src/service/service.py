@@ -315,6 +315,12 @@ async def execute_workflow(input: ExecuteWorkflowInput):
         logger.error(f"An exception occurred: {e}")
         raise HTTPException(status_code=500, detail="Unexpected error")
 
+
+
+@router.post("/list_workflows")
+def get_workflows():
+    return get_all_agent_info()
+
 @router.post("/get_thread_state")
 def get_thread_state(input: GetThreadStateInput):
     agent = get_agent(input.workflow_id)

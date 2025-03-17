@@ -10,6 +10,7 @@ from .research_assistant import research_assistant
 from .test_graph import test_graph
 from schema import AgentInfo
 
+# There are the submodule workflows
 from workflows import workflows
 
 DEFAULT_AGENT = "research-assistant"
