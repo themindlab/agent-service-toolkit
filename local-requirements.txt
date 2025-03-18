@@ -1,2 +1,3 @@
 -e file:./local_modules/ml-http -e .[$ENV]
+-e file:./local_modules/agentic-ai-testbed/lg_utils_package
 -e file:./local_modules/agentic-ai-testbed
