@@ -291,6 +291,10 @@ async def health_check():
 
 ##### New Routes #####
 
+@router.post("/list_workflows")
+def get_workflows():
+    return get_all_agent_info()
+
 @router.post("/execute_workflow")
 async def execute_workflow(input: ExecuteWorkflowInput):
 
@@ -306,14 +310,26 @@ async def execute_workflow(input: ExecuteWorkflowInput):
         }
     }
 
+    async def run_workflow():
+        try:
+            agent = get_agent(input.workflow_id)
+            async for event in agent.astream(**kwargs):
+                print(event)
+        except Exception as e:
+            print(e)
+
+
     agent = get_agent(input.workflow_id)
     loop = asyncio.get_event_loop()
     try:
-        loop.create_task(agent.ainvoke(**kwargs))
+        loop.create_task(run_workflow())
         return kwargs
     except Exception as e:
         logger.error(f"An exception occurred: {e}")
         raise HTTPException(status_code=500, detail="Unexpected error")
+
+
+
 
 @router.post("/get_thread_state")
 def get_thread_state(input: GetThreadStateInput):

@@ -10,6 +10,7 @@ from .research_assistant import research_assistant
 from .test_graph import test_graph
 from schema import AgentInfo
 
+# There are the submodule workflows
 from workflows import workflows
 
 DEFAULT_AGENT = "research-assistant"
@@ -31,6 +32,8 @@ agents: dict[str, Agent] = {
     "test_graph": Agent(description="a test graph", graph=test_graph),
     "proportion_agent": Agent(description="A data insights agent for proportion.", graph=proportion_insight_agent),
 }
+
+print("workflows")
 
 for workflow in workflows:
     agents[workflow['workflow_id']] = Agent(description=workflow['description'], graph=workflow['agent'])
