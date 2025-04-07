@@ -40,6 +40,8 @@ from .utils import (
     remove_tool_calls,
 )
 
+from lg_utils_package.lg_utils import Status
+
 warnings.filterwarnings("ignore", category=LangChainBetaWarning)
 logger = logging.getLogger(__name__)
 
@@ -316,6 +318,10 @@ async def execute_workflow(input: ExecuteWorkflowInput):
             async for event in agent.astream(**kwargs):
                 print(event)
         except Exception as e:
+            await agent.aupdate_state(kwargs['config'], {
+                "status": Status.FAILED,
+                "error": str(e)
+            })
             print(e)
 
 
