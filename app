@@ -20,12 +20,12 @@ if [ $# -gt 0 ]; then
 
   if [ "$1" = "build" ]; then
     docker compose build --build-arg ENV="development" agent-server
-
-  elif [ "$1" = "build_app" ]; then
-    docker compose build --build-arg ENV="development" streamlit-app
   
   elif [ "$1" = "up" ]; then
     docker compose up -d
+  
+  elif [ "$1" = "pull" ]; then
+    docker compose pull 
 
   elif [ "$1" = "ci_up" ]; then
     docker compose -f ./docker-compose.yaml --verbose up -d
