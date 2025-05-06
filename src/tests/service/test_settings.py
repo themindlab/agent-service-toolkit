@@ -1,8 +1,7 @@
-import os
-from unittest.mock import patch
+
 
 import pytest
-from pydantic import SecretStr, ValidationError
+from pydantic import ValidationError
 
 from service.settings import Settings, check_str_is_http
 

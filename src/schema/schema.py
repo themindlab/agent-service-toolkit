@@ -1,7 +1,5 @@
-from typing import Any, Literal, NotRequired
 
-from pydantic import BaseModel, Field, SerializeAsAny
-from typing_extensions import TypedDict
+from pydantic import BaseModel, Field
 
 from .models import WorkflowEnum
 
@@ -26,7 +24,7 @@ class ExecuteWorkflowInput(BaseModel):
         description="Data to be consumed by agent"
         # TODO: add examplewhen data schema figured out
     )
-    workflow_id: WorkflowEnum = Field(
+    workflow_id: str = Field(
         title="Workflow",
         description="Workflow to be executed",
         examples=['proportion_agent']
@@ -44,7 +42,7 @@ class GetThreadStateInput(BaseModel):
         default=None,
         examples=["847c6285-8fc9-4560-a83f-4e6285809254"],
     )
-    workflow_id: WorkflowEnum = Field(
+    workflow_id: str = Field(
         title="Workflow",
         description="Workflow to be executed",
         examples=['proportion_agent']

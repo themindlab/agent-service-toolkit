@@ -1,7 +1,6 @@
-from typing import Annotated, Any
 
 from dotenv import find_dotenv
-from pydantic import BeforeValidator, HttpUrl, SecretStr, TypeAdapter, computed_field
+from pydantic import HttpUrl, SecretStr, TypeAdapter, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 

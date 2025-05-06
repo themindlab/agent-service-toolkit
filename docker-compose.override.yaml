@@ -1,12 +1,7 @@
 services:
   agent-server:
     volumes:
-      - ./src/schema:/app/schema
-      - ./src/service:/app/service
-      - ./src/clients:/app/clients
-      - ./src/tests:/app/tests
-
-      - ./src/run_service.py:/app/run_service.py
+      - ./src:/app/src
 
       - ./requirements.txt:/app/requirements.txt
       - ./local-requirements.txt:/app/local-requirements.txt

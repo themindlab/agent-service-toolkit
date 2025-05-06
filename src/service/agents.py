@@ -24,7 +24,10 @@ for workflow in workflows:
 
 
 def get_agent(agent_id: str) -> CompiledStateGraph:
-    return agents[agent_id].graph
+    try:
+        return agents[agent_id].graph
+    except KeyError:
+        raise ValueError(f"Agent {agent_id} not found.")
 
 
 def get_all_agent_info() -> list[AgentInfo]:
