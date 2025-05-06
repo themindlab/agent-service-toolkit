@@ -1,9 +1,6 @@
 
 from pydantic import BaseModel, Field
 
-from .models import WorkflowEnum
-
-
 class AgentInfo(BaseModel):
     """Info about an available agent."""
 
