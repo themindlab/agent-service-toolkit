@@ -16,7 +16,7 @@ from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 
 
 from .agents import get_agent, get_all_agent_info
-from core import settings
+from .settings import settings
 from schema import (
     ExecuteWorkflowInput,
     GetThreadStateInput

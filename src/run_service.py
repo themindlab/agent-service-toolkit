@@ -1,7 +1,7 @@
 import uvicorn
 from dotenv import load_dotenv
 
-from core import settings
+from service import settings
 
 load_dotenv()
 
