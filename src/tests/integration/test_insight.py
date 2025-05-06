@@ -1,7 +1,7 @@
 import pytest
 import asyncio
 
-from mindlab_clients import data_client, query_client
+from clients import data_client, query_client
 
 PROJECT_ID = None
 EXPERIMENT_ID = None

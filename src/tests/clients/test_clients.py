@@ -1,4 +1,4 @@
-from mindlab_clients import data_client, query_client
+from clients import data_client, query_client
 
 EXPERIMENT_ID= None
 

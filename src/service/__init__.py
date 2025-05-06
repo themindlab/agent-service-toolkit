@@ -1,3 +1,4 @@
-from service.service import app
+from service.app import app
+from .settings import settings
 
-__all__ = ["app"]
+__all__ = ["app", "settings"]
